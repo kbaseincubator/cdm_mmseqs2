@@ -7,16 +7,22 @@ CTS (CDM Task Service) job wrapper for [MMseqs2](https://github.com/soedinglab/M
 Wraps the official [`soedinglab/mmseqs2`](https://hub.docker.com/r/soedinglab/mmseqs2) image.
 Published to `ghcr.io/kbaseincubator/cdm_mmseqs2`.
 
+**Entrypoint:** `mmseqs` (no subcommand) — append the desired subcommand as the first argument
+(e.g. `easy-cluster`, `easy-search`, `easy-linclust`).
+
+**Refdata:** Not required for clustering modes (`easy-cluster`, `easy-linclust`).
+Required for search modes (`easy-search`) which need a pre-built reference database.
+
 ## Usage via CTS
 
 See the [CTS documentation](https://github.com/kbase/cdm-task-service) and the demo notebook
 at `global_share/jplfaria/mmseqs2_demo.ipynb` on hub.berdl.kbase.us.
 
-### Example: easy-cluster
+### Example: easy-cluster (all-vs-all, no refdata)
 
 ```python
 job = tscli.submit_job(
-    "ghcr.io/kbaseincubator/cdm_mmseqs2:0.1.0@sha256:<digest>",
+    "ghcr.io/kbaseincubator/cdm_mmseqs2:0.1.0@sha256:1d9914f332a0a110a8839a172604de57a3f52d844ce48aa7d86dec3e86336b66",
     input_files,
     "cts/io/jplfaria/output/mmseqs2/test/v1",
     cluster="kbase",
