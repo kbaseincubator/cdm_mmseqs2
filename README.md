@@ -22,7 +22,7 @@ at `global_share/jplfaria/mmseqs2_demo.ipynb` on hub.berdl.kbase.us.
 
 ```python
 job = tscli.submit_job(
-    "ghcr.io/kbaseincubator/cdm_mmseqs2:0.1.0@sha256:1d9914f332a0a110a8839a172604de57a3f52d844ce48aa7d86dec3e86336b66",
+    "ghcr.io/kbaseincubator/cdm_mmseqs2:0.1.0@sha256:24afa107c0dac1a6f093cc081ec19a577c4d0b156dfa8ee66bb2d3c41b97c082",
     input_files,
     "cts/io/jplfaria/output/mmseqs2/test/v1",
     cluster="kbase",
