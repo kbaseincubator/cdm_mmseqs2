@@ -32,7 +32,7 @@ job = tscli.submit_job(
         "easy-cluster",
         tscli.insert_files(),
         "/out/cluster_results",
-        "/out/tmp",
+        "/tmp/mmseqs",
         "--threads", "8",
     ],
     cpus=8,
@@ -40,6 +40,23 @@ job = tscli.submit_job(
     runtime="PT30M"
 )
 ```
+
+What the arguments mean:
+
+- `input_files`: a list of MinIO paths (`bucket/key`) to FASTA files, e.g.
+  `["cts/io/<you>/inputs/genome_a.faa", "cts/io/<you>/inputs/genome_b.faa"]`. Upload your files
+  to MinIO first. CTS stages them into the container, and `tscli.insert_files()` expands to their
+  in-container paths at that position in `args`.
+- `"cts/io/jplfaria/output/mmseqs2/test/v1"`: where CTS uploads results in MinIO when the job
+  finishes. The bucket is `cts`; write under your own prefix, `cts/io/<your username>/...`. Everything
+  after that is free-form.
+- `output_mount_point="/out"`: the directory inside the container that CTS collects and uploads.
+  The tool must write its results under `/out`.
+- `/tmp/mmseqs`: MMseqs2's scratch directory. Keep it **outside** `/out`, otherwise the
+  intermediate files are uploaded to MinIO alongside the results.
+- `declobber=True`: CTS puts each container's output under its own numbered subdirectory so
+  parallel containers cannot overwrite each other. With one container, results land under `0/`,
+  e.g. `cts/io/jplfaria/output/mmseqs2/test/v1/0/cluster_results_cluster.tsv`.
 
 ## Output
 
